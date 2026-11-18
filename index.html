@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delivery Forecast Studio</title>
+<meta name="description" content="Monte Carlo forecast of launch date, cost and delivery risk for a fictional onboarding-system replacement.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f5bd8'/%3E%3Cpath d='M6 22 L12 14 L17 18 L26 8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>Delivery Forecast Studio</h1>
+        <p>Brightwater Financial · onboarding system replacement</p>
+      </div>
+    </div>
+    <nav class="tabs" id="scenarioTabs" aria-label="Scenario" role="tablist"></nav>
+    <div class="top-actions">
+      <span class="badge fiction" title="Every company, vendor, number and date in this app is invented.">Fictional data</span>
+      <button class="btn ghost" id="resetBtn" type="button">Reset assumptions</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="overview" aria-labelledby="h-overview">
+    <div class="section-head">
+      <h2 id="h-overview">Executive dashboard</h2>
+      <p class="muted" id="runInfo"></p>
+    </div>
+    <p class="headline" id="headline"></p>
+    <div class="kpis" id="kpis"></div>
+  </section>
+
+  <section id="compare" aria-labelledby="h-compare">
+    <div class="section-head">
+      <h2 id="h-compare">Four scenarios, side by side</h2>
+      <p class="muted">Every scenario reuses the same simulated draws, so differences come from the scenario, not from luck. Click a column to focus it.</p>
+    </div>
+    <div id="compareTable" class="compare"></div>
+    <div class="two-col">
+      <div class="card" id="phasedCard"></div>
+      <div class="card" id="contractorCard"></div>
+    </div>
+  </section>
+
+  <section id="levers" aria-labelledby="h-levers">
+    <div class="section-head">
+      <h2 id="h-levers">Key levers</h2>
+      <p class="muted">Edit any value and all four scenarios re-simulate instantly. Full assumptions are listed further down.</p>
+    </div>
+    <div class="levers" id="leverGrid"></div>
+  </section>
+
+  <div class="divider"><span>Deeper analysis</span></div>
+
+  <section id="timeline" aria-labelledby="h-timeline">
+    <div class="section-head">
+      <h2 id="h-timeline">Workstreams, dependencies and critical path</h2>
+      <div class="toggles">
+        <label class="check"><input type="checkbox" id="whiskToggle" checked> Show P10–P90 finish range</label>
+      </div>
+    </div>
+    <p class="muted" id="timelineNote"></p>
+    <div class="card chart-card"><div id="gantt"></div></div>
+    <div class="card" id="taskDetail"></div>
+  </section>
+
+  <section id="distributions" aria-labelledby="h-dist">
+    <div class="section-head">
+      <h2 id="h-dist">Outcome distributions</h2>
+      <div class="toggles">
+        <label class="check"><input type="checkbox" id="overlayToggle" checked> Overlay other scenarios</label>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card chart-card"><h3>Finish date</h3><div id="histDate"></div></div>
+      <div class="card chart-card"><h3>Final cost</h3><div id="histCost"></div></div>
+    </div>
+    <div class="card chart-card">
+      <h3>Schedule and cost in the same runs</h3>
+      <p class="muted small">Each dot is one simulated run (1,500 of them shown). The chance of meeting both targets is the share of all runs landing in the green quadrant.</p>
+      <div id="scatter"></div>
+    </div>
+  </section>
+
+  <section id="sensitivity" aria-labelledby="h-sens">
+    <div class="section-head">
+      <h2 id="h-sens">What moves the forecast most</h2>
+      <div class="seg" id="sensSeg" role="group" aria-label="Outcome to explain">
+        <button type="button" data-m="launch" class="on">Launch date</button>
+        <button type="button" data-m="cost">Final cost</button>
+        <button type="button" data-m="both">Both targets</button>
+      </div>
+    </div>
+    <div class="card chart-card" id="sensChart"></div>
+  </section>
+
+  <section id="brief" aria-labelledby="h-brief">
+    <div class="section-head">
+      <h2 id="h-brief">Executive brief</h2>
+      <div class="toggles"><button class="btn primary" id="copyBtn" type="button">Copy brief</button><span id="copyMsg" class="muted small" role="status"></span></div>
+    </div>
+    <div class="card"><textarea id="briefText" readonly spellcheck="false" aria-label="Executive brief text"></textarea></div>
+  </section>
+
+  <section id="assumptions" aria-labelledby="h-assump">
+    <div class="section-head">
+      <h2 id="h-assump">Assumptions behind the numbers</h2>
+      <p class="muted">All values are invented. Durations and cost risks are triangular distributions (min / most likely / max). Money in $ thousands.</p>
+    </div>
+    <div id="assumpBody"></div>
+    <div class="card method" id="method"></div>
+  </section>
+</main>
+
+<footer>
+  <p><strong>Fictional data.</strong> Brightwater Financial, its vendor, and every figure here are invented for a portfolio demonstration. Forecasts are model outputs from the assumptions shown, not predictions about any real project.</p>
+</footer>
+<div id="tip" class="tip" role="tooltip" hidden></div>
+<script type="module" src="src/app.js"></script>
+</body>
+</html>
